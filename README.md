@@ -13,7 +13,7 @@ rosdep update
 ```
 mkdir -p rviz2_plugin_ws/src
 git clone https://github.com/delipl/select_and_save_plugin rviz2_plugin_ws/src -b humble
-cd select_and_save_plugin
+cd rviz2_plugin_ws
 rosdep install --from-paths src --ignore-src --rosdistro humble -y
 colcon build
 ```
@@ -22,17 +22,13 @@ colcon build
 
 ```
 source install/setup.bash
-rviz2
+rviz2 -d src/select_and_save_plugin/config/velodyne.rviz
 ```
 
-Add the `SelectAndSave` tool from tools bar:
-![](.docs/1.png)
-![](.docs/2.png)
-
 Select the `SelectAndSave` tool from tools bar:
-![](.docs/3.png)
+![](.docs/1.png)
 
 Select a region of interest from pointcloud published on `/velodyne_points` topic:
-![](.docs/4.png)
+![](.docs/2.png)
 
 Press `p` to save data to the yaml file  `rviz_selected_supports.yaml` and then press `n` to go to call `PlayNext` from `ros2bag_player`.

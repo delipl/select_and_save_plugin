@@ -142,7 +142,7 @@ install(
 )
 
 install(
-  DIRECTORY include/
+  DIRECTORY include/ 
   DESTINATION include/${PROJECT_NAME}
 )
 
@@ -151,7 +151,10 @@ install(
   DESTINATION "share/${PROJECT_NAME}"
 )
 
-
+install(
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/config"
+  DESTINATION "share/${PROJECT_NAME}"
+)
 
 ament_package(
   CONFIG_EXTRAS "select_and_save_plugin-extras.cmake"
