@@ -255,6 +255,10 @@ int SelectionTool::processKeyEvent(QKeyEvent* event, rviz_common::RenderPanel* p
 }
 
 void SelectionTool::save_data_to_yaml() {
+    if (data == nullptr) {
+        RCLCPP_WARN_STREAM(node->get_logger(), "Select points before saving!");
+        return;
+    }
     auto start = std::chrono::high_resolution_clock::now();
     YAML::Node yaml_node;
     YAML::Node frame_node;
@@ -263,6 +267,9 @@ void SelectionTool::save_data_to_yaml() {
     if (pc2 != nullptr) {
         RCLCPP_INFO_STREAM(node->get_logger(),
                            "timestamp: " << pc2->header.stamp.sec * 1.0 + pc2->header.stamp.nanosec * 10e-9 << "s");
+    } else {
+        RCLCPP_ERROR_STREAM(node->get_logger(), "There is not /velodyne_points message!");
+        return;
     }
 
     frame_node["timestamp"]["sec"] = pc2->header.stamp.sec;
@@ -277,14 +284,14 @@ void SelectionTool::save_data_to_yaml() {
     frame_node["mean_point"]["z"] = data->mean_point.z;
 
     YAML::Node points_node;
-    for(const auto &point : data->points){
-      YAML::Node point_node;
-      point_node["x"] = point.xyz.x;
-      point_node["y"] = point.xyz.y;
-      point_node["z"] = point.xyz.z;
-      point_node["intensity"] = point.intensity;
-      point_node["ring"] = point.ring;
-      frame_node["points"].push_back(point_node);
+    for (const auto& point : data->points) {
+        YAML::Node point_node;
+        point_node["x"] = point.xyz.x;
+        point_node["y"] = point.xyz.y;
+        point_node["z"] = point.xyz.z;
+        point_node["intensity"] = point.intensity;
+        point_node["ring"] = point.ring;
+        frame_node["points"].push_back(point_node);
     }
 
     yaml_node.push_back(frame_node);
