@@ -1,0 +1,14 @@
+<library path="select_and_save_plugin">
+
+  <class
+    name="select_and_save_plugin/SelectAndSave"
+    type="select_and_save_plugin::tools::SelectionTool"
+    base_class_type="rviz_common::Tool"
+  >
+    <description>
+      Drag with the left button to select objects in the 3D scene.
+      Hold the Alt key to change viewpoint as in the Move tool.
+    </description>
+  </class>
+
+</library>
